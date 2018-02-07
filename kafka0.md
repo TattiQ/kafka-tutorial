@@ -66,6 +66,11 @@ Batch - collection of messages.
 
 ### Topics and Partitions
 
+* Messages are categorized in topics(db table, folder on fs)
+* Written in append-only fashion, read from start to end
+* Can be partitioned (usually nr of partitions = parallel consumers
+* Partition by offset or custom logic via key)
+
 ![alt text](pics/partitions.png)
 
 ### Producers and Consumers
