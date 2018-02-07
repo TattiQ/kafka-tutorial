@@ -42,7 +42,7 @@ The technical debt built up here is obvious, so you decide to pay some of it bac
 * METRICS AND LOGGING
 * COMMIT LOG (re-syncing mechanism)
 * STREAM PROCESSING (vs batch processing)
-* EVENT SOURCING
+* EVENT SOURCING(all changes to application state are stored as a sequence of events)
 * STORAGE
 
 ### Why Kafka?
