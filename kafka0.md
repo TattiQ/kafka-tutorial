@@ -55,14 +55,14 @@ The technical debt built up here is obvious, so you decide to pay some of it bac
 
 ### Messages and Batches 
 
-The unit of data within Kafka is called a message. If you are approaching Kafka from a database background, you can think of this as similar to a row or a record.
+The unit of data within Kafka is called a message. If you are approaching Kafka from a database background, you can think of this as similar to a row or a record. In a most basic way, messages is a k/v pair where key is optional. 
 Batch - collection of messages.  
 
 ### Schemas 
 
-While messages are opaque byte arrays to Kafka itself, it is recommended that additional structure, or schema, be imposed on the message content so that it can be easily understood. There are many options available for message schema, depending on your application’s individual needs. Simplistic systems, such as Javascript Object Notation (JSON) and Extensible Markup Language (XML), are easy to use and human-readable. However, they lack features such as robust type handling and compatibility between schema versions. Many Kafka developers favor the use of Apache Avro, which is a serialization framework originally developed for Hadoop.
-
-### Topics and Partitions
+* Impose a structure on a messages sent to kafka
+* Any format goes that can be serialized to bytes by the producer and deserialized by consumer 
+* Most popular - JSON, Avro(complex types)
 
 
 ![alt text](pics/partitions.png)
