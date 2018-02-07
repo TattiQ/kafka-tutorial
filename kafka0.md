@@ -86,6 +86,15 @@ Batch - collection of messages.
 
 ### Brokers and Clusters 
 
+* Kafka servers - brokers
+* Receives messages from producers, assigns offsets to them, and commits the messages to storage on disk
+* Services consumers
+* Kafka clusters -> controller broker
+* Controller assigns partitions to brokers and monitors for nodes failure
+* A partition is owned by a single broker in the cluster, and that broker is called the leader of the partition
+* Replication
+* Retention(disk based/time based/compact(stored indefinitely))
+
 ![alt text](pics/brokers.png)
 
 ### Multiple Clusters
