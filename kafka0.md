@@ -125,7 +125,7 @@ When setting this parameter, remember that the number configured is per log dire
     - When any client requests metadata for the topic
     
 * NUM.PARTITIONS
-* LOG.RETENTION.MS - it is set to 168 hours, or one week. 
+* LOG.RETENTION.HOURS - it is set to 168 hours, or one week. 
 However, there are two other parameters allowed, log.retention.minutes and log.retention.ms.
 Retention by time is performed by examining the last modified time (mtime) on each log segment file on disk.
 Under normal cluster operations, this is the time that the log segment was closed, and represents the timestamp of the last message in the file.
