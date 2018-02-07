@@ -64,6 +64,7 @@ Batch - collection of messages.
 * Any format goes that can be serialized to bytes by the producer and deserialized by consumer 
 * Most popular - JSON, Avro(complex types)
 
+### Topics and Partitions
 
 ![alt text](pics/partitions.png)
 
