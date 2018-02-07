@@ -75,6 +75,13 @@ Batch - collection of messages.
 
 ### Producers and Consumers
 
+* Producers send data to a certain topic, don't care about partitions
+* Messages balanced by brokers via round robin unless custom partitioning used
+* The consumer subscribes to one or more topics and reads the messages in the order in which they were produced
+* The offset is another bit of metadata—an integer value that continually increases—that Kafka adds to each message as it is produced.
+* Consumer groups are balanced automatically if someone dies 
+* No manual tracking on the user side is needed.  
+
 ![alt text](pics/consumers.png)
 
 ### Brokers and Clusters 
