@@ -42,6 +42,8 @@ The technical debt built up here is obvious, so you decide to pay some of it bac
 * METRICS AND LOGGING
 * COMMIT LOG
 * STREAM PROCESSING
+* EVENT SOURCING
+* STORAGE
 
 ### Why Kafka?
 
