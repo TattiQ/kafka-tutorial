@@ -51,6 +51,7 @@ The technical debt built up here is obvious, so you decide to pay some of it bac
 * No need to deploy a zoo of different systems
 * Different users can consume messages multiple times
 * Disk-Based Retention
+* Scalability is easy, just more brokers (scale as you go without learning new stuff)
 
 ### Messages and Batches 
 
