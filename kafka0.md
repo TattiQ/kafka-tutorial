@@ -130,8 +130,8 @@ However, there are two other parameters allowed, log.retention.minutes and log.r
 Retention by time is performed by examining the last modified time (mtime) on each log segment file on disk.
 Under normal cluster operations, this is the time that the log segment was closed, and represents the timestamp of the last message in the file.
 
-* LOG.RETENTION.BYTES - per-partition 
-* LOG.SEGMENT.BYTES - Once the log segment has reached the size specified by the log.segment.bytes parameter, which defaults to 1 GB, the log segment is closed and a new one is opened. Once a log segment has been closed, it can be considered for expiration.
+* LOG.RETENTION.BYTES - per-partition. 8 partitions -> 1 GB -> 8 GB  
+* LOG.SEGMENT.BYTES - Once the log segment has reached the size specified by the log.segment.bytes parameter, which defaults to 1 GB, the log segment is closed and a new one is opened. Once a log segment has been closed, it can be considered for expiration. NB topics with low produce rate.
 
 * LOG.SEGMENT.MS - Kafka will close a log segment either when the size limit is reached or when the time limit is reached, whichever comes first. By default, there is no setting for log.segment.ms, which results in only closing log segments by size.
 
