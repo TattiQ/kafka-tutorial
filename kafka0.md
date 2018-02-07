@@ -38,7 +38,7 @@ The technical debt built up here is obvious, so you decide to pay some of it bac
 ### Use cases
 
 * ACTIVITY TRACKING
-* MESSAGING
+* MESSAGING (context mapping/remote procedure calls)
 * METRICS AND LOGGING
 * COMMIT LOG
 * STREAM PROCESSING
