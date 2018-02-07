@@ -41,17 +41,16 @@ The technical debt built up here is obvious, so you decide to pay some of it bac
 * MESSAGING (context mapping/remote procedure calls)
 * METRICS AND LOGGING
 * COMMIT LOG (re-syncing mechanism)
-* STREAM PROCESSING
+* STREAM PROCESSING (vs batch processing)
 * EVENT SOURCING
 * STORAGE
 
 ### Why Kafka?
 
-* Multiple Producers
-* Multiple Consumers
+* Single entry point/API for multiple use cases 
+* No need to deploy a zoo of different systems
+* Different users can consume messages multiple times
 * Disk-Based Retention
-* Scalable
-* High Performance
 
 ### Messages and Batches 
 
