@@ -26,6 +26,7 @@ kafkaProps.put("value.serializer",
 producer = new KafkaProducer<String, String>(kafkaProps);
 ```
 
+Kafka brokers expect byte arrays as keys and values of messages.
 key.serializer + value.serializer ->  the producer will use this class to serialize the key and value object to a byte array.
 
 
@@ -44,6 +45,9 @@ try {
 	e.printStackTrace(); 
 }
 ```
+The send() method returns a Java Future object with RecordMetadata, but since we simply ignore the returned value, we have no way of knowing whether the message was sent successfully or not. This method of sending messages can be used when dropping a message silently is acceptable.
+While we ignore errors that may occur while sending messages to Kafka brokers or in the brokers themselves, we may still get an exception if the producer encountered errors before sending the message to Kafka.
+
 
 * Synchronous send
 We send a message, the send() method returns a Future object, and we use get() to wait on the future and see if the send() was successful or not.
@@ -57,6 +61,8 @@ try {
 		e.printStackTrace(); 
 }
 ```
+
+If there were any errors before sending data to Kafka, while sending, if the Kafka brokers returned a nonretriable exceptions or if we exhausted the available retries, we will encounter an exception. 
 
 * Asynchronous send
 We call the send() method with a callback function, which gets triggered when it receives a response from the Kafka broker.
@@ -75,6 +81,8 @@ ProducerRecord<String, String> record =
 	new ProducerRecord<>("CustomerCountry", "Biomedical Materials", "USA");
 producer.send(record, new DemoProducerCallback()); 
 ```
+
+If Kafka returned an error, onCompletion() will have a nonnull exception. Here we “handle” it by printing, but production code will probably have more robust error handling functions.
 
 ### Configuring Producers
 
