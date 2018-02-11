@@ -86,19 +86,23 @@ If Kafka returned an error, onCompletion() will have a nonnull exception. Here w
 
 ### Configuring Producers
 
-* Acks - 0, 1 or all.
-* BUFFER.MEMORY - the producer may run out of space and additional send() calls will either block or throw an exception, based on the block.on.buffer.full parameter
+* Acks - 0, 1 or all. Controls how many partition replicas must receive the record before the producer can consider the write successful. This option has a significant impact on how likely messages are to be lost. 
+1 -  The message can still get lost if the leader crashes and a replica without this message gets elected as the new leader (via unclean leader election).
+All - the producer will receive a success response from the broker once all in-sync replicas received the message. Latency is even higher though. 
+* BUFFER.MEMORY - This sets the amount of memory the producer will use to buffer messages waiting to be sent to brokers.The producer may run out of space and additional send() calls will either block or throw an exception, based on the max.block.ms which allows blocking for a certain time and then throwing an exception.
 * COMPRESSION.TYPE - This parameter can be set to snappy, gzip, or lz4, in which case the corresponding compression algorithms will be used to compress the data before sending it to the brokers.
 * RETRIES - By default, the producer will wait 100ms between retries, but you can control this using the retry.backoff.ms parameter.
+We recommend testing how long it takes to recover from a crashed broker (i.e., how long until all partitions get new leaders) and setting the number of retries and delay between them such that the total amount of time spent retrying will be longer than the time it takes the Kafka cluster to recover from the crash—otherwise, the producer will give up too soon.
 * BATCH.SIZE - When multiple records are sent to the same partition, the producer will batch them together. This parameter controls the amount of memory in bytes (not messages!) that will be used for each batch. When the batch is full, all the messages in the batch will be sent. However, this does not mean that the producer will wait for the batch to become full.
 * LINGER.MS - linger.ms controls the amount of time to wait for additional messages before sending the current batch. KafkaProducer sends a batch of messages either when the current batch is full or when the linger.ms limit is reached. 
 * CLIENT.ID  - This can be any string, and will be used by the brokers to identify messages sent from the client. It is used in logging and metrics, and for quotas.
 * MAX.IN.FLIGHT.REQUESTS.PER.CONNECTION  - This controls how many messages the producer will send to the server without receiving responses
 Setting this to 1 will guarantee that messages will be written to the broker in the order in which they were sent, even when retries occur.
-* TIMEOUT.MS, REQUEST.TIMEOUT.MS, AND METADATA.FETCH.TIMEOUT.MS - These parameters control how long the producer will wait for a reply from the server when sending data (request.timeout.ms) and when requesting metadata such as the current leaders for the partitions we are writing to (metadata.fetch.timeout.ms). If the timeout is reached without reply, the producer will either retry sending or respond with an error (either through exception or the send callback). timeout.ms controls the time the broker will wait for in-sync replicas to acknowledge the message in order to meet the acks configuration—the broker will return an error if the time elapses without the necessary acknowledgments.
+* TIMEOUT.MS, REQUEST.TIMEOUT.MS, AND METADATA.FETCH.TIMEOUT.MS - These parameters control how long the producer will wait for a reply from the server when sending data (request.timeout.ms) and when requesting metadata such as the current leaders for the partitions we are writing to (metadata.fetch.timeout.ms). If the timeout is reached without reply, the producer will either retry sending or respond with an error (either through exception or the sent callback). timeout.ms controls the time the broker will wait for in-sync replicas to acknowledge the message in order to meet the acks configuration—the broker will return an error if the time elapses without the necessary acknowledgments.
 * MAX.REQUEST.SIZE - It caps both the size of the largest message that can be sent and the number of messages that the producer can send in one request.
 In addition, the broker has its own limit on the size of the largest message it will accept (message.max.bytes). It is usually a good idea to have these configurations match
 
+Ordering - setting the retries parameter to nonzero and the max.in.flights.requests.per.session to more than one means that it is possible that the broker will fail to write the first batch of messages, succeed to write the second (which was already in-flight), and then retry the first batch and succeed, thereby reversing the order.
 
 ### Using Avro Records with Kafka 
 
