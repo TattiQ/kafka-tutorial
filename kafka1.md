@@ -15,11 +15,11 @@ Optionally, we can also specify a key and/or a partition.
 Producer sample 
 
 
-```private Properties kafkaProps = new Properties(); 1
+```private Properties kafkaProps = new Properties(); 
 kafkaProps.put("bootstrap.servers", "broker1:9092,broker2:9092");
 
 kafkaProps.put("key.serializer",
-  "org.apache.kafka.common.serialization.StringSerializer"); 2
+  "org.apache.kafka.common.serialization.StringSerializer"); 
 kafkaProps.put("value.serializer",
   "org.apache.kafka.common.serialization.StringSerializer");
 
@@ -33,6 +33,7 @@ key.serializer + value.serializer ->  the producer will use this class to serial
 Once we instantiate a producer, it is time to start sending messages. There are three primary methods of sending messages:
 
 * Fire-and-forget
+
 We send a message to the server and don’t really care if it arrives succesfully or not. Most of the time, it will arrive successfully, since Kafka is highly available and the producer will retry sending messages automatically. However, some messages will get lost using this method.
 
 ```buildoutcfg
@@ -50,6 +51,7 @@ While we ignore errors that may occur while sending messages to Kafka brokers or
 
 
 * Synchronous send
+
 We send a message, the send() method returns a Future object, and we use get() to wait on the future and see if the send() was successful or not.
 
 ```buildoutcfg
@@ -65,6 +67,7 @@ try {
 If there were any errors before sending data to Kafka, while sending, if the Kafka brokers returned a nonretriable exceptions or if we exhausted the available retries, we will encounter an exception. 
 
 * Asynchronous send
+
 We call the send() method with a callback function, which gets triggered when it receives a response from the Kafka broker.
 
 ```buildoutcfg
@@ -102,7 +105,7 @@ Setting this to 1 will guarantee that messages will be written to the broker in 
 * MAX.REQUEST.SIZE - It caps both the size of the largest message that can be sent and the number of messages that the producer can send in one request.
 In addition, the broker has its own limit on the size of the largest message it will accept (message.max.bytes). It is usually a good idea to have these configurations match
 
-Ordering - setting the retries parameter to nonzero and the max.in.flights.requests.per.session to more than one means that it is possible that the broker will fail to write the first batch of messages, succeed to write the second (which was already in-flight), and then retry the first batch and succeed, thereby reversing the order.
+Ordering - setting the retries parameter to nonzero and the max.in.flights.requests.per.connection to more than one means that it is possible that the broker will fail to write the first batch of messages, succeed to write the second (which was already in-flight), and then retry the first batch and succeed, thereby reversing the order.
 
 ### Using Avro Records with Kafka 
 

@@ -55,9 +55,9 @@ At the heart of the consumer API is a simple loop for polling the server for mor
 
 ```
 try {
-  while (true) { 1
-      ConsumerRecords<String, String> records = consumer.poll(100); 2
-      for (ConsumerRecord<String, String> record : records) 3
+  while (true) { 
+      ConsumerRecords<String, String> records = consumer.poll(100);
+      for (ConsumerRecord<String, String> record : records) 
       {
           log.debug("topic = %s, partition = %s, offset = %d,
              customer = %s, country = %s\n",
@@ -71,11 +71,11 @@ try {
           custCountryMap.put(record.value(), updatedCount)
 
           JSONObject json = new JSONObject(custCountryMap);
-          System.out.println(json.toString(4)) 4
+          System.out.println(json.toString(4))
       }
   }
 } finally {
-  consumer.close(); 5
+  consumer.close(); 
 }
 ```
 
